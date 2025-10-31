@@ -1,6 +1,6 @@
 export default function Header() {
     return (
-        <header className="w-full h-12 flex justify-between items-center">
+        <header className="w-full h-12 flex justify-between items-center mb-10">
             <div className="text-(--text-primary)">
                 {/* потом поменяю */}
                     vibeflow
