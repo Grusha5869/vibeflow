@@ -1,55 +1,37 @@
 import { useEffect, useRef, useState } from "react"
+import { useSearch } from '../hooks/useSearch'
 import { config } from "../config";
 
-export default function Header() {
+export default function Header({ reference, setReference }) {
     const [value, setValue] = useState('');
     const [request, setRequest] = useState(false);
     const inputRef = useRef(null)
-    /* const [active, setActive] = useState(false) */
+    const infoTracks = useSearch(value, request)
     
-    useEffect(() => {
-        if (value) {
-            const fetchData = async () => {
-                
-                try {
-                    const res = await fetch(`${config.Api_Url}?method=track.search&track=${value}&api_key=${config.Api_Key}&format=json`)
-                    const data = await res.json()
-
-                    if(data.error) {
-                        throw new Error(data.message)
-                    }
-
-                    console.log(data);
-                    
-                } catch (error) {
-                    console.error('error api', error)
-                }
-            }
-            fetchData()
+    function trigger() {
+        if (value === '') {
+            alert('Такого трека нет')
+            return
         }
-    }, [request])
+        setRequest(!request)
+
+    }
 
     function onKeyDown(event) {
         if (event.key === 'Enter') {
-            if (value === '') {
-                alert('Такого трека нет')
-            }
-            setRequest(!request)
+            trigger()
         }
     }
     function onClick() {
-        if (value === '') {
-            alert('Такого трека нет')
-        }
-        setRequest(!request)
+        trigger()
     }
     
+
     return (
         <header className="w-full h-12 flex justify-between items-center mb-10">
             <div className="text-(--text-primary)">
                 {/* потом поменяю */}
-                    vibeflow
-            </div>
+                    vibeflow            </div>
             <div className="w-[80%] flex justify-center items-center">
                 <input 
                     type="text" 
@@ -58,6 +40,7 @@ export default function Header() {
                     value={value}
                     onChange={event => setValue(event.target.value)}
                     onKeyDown={event => onKeyDown(event)}
+                    
                 />
                 <input
                     className="bg-(--secondary-bg) h-full p-[9px] text-(--text-primary) rounded-2xl rounded-l-none w-20  cursor-pointer hover:bg-[#171729]"
@@ -66,7 +49,7 @@ export default function Header() {
                     onClick={onClick} 
                 />
             </div>
-            <button className="text-(--text-primary)">
+            <button className="text-(--text-primary) cursor-pointer" onClick={() => setReference(!reference)}>
                 {/* Доработаю */}
                 Справка
             </button>

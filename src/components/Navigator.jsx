@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router";
+import { Link, NavLink } from "react-router"
 import iconHome from '../assets/navigator-icons/home.svg'
 import iconTrends from '../assets/navigator-icons/fire.svg'
 import iconFavorite from '../assets/navigator-icons/favorite.svg'
