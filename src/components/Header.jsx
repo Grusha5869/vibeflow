@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from "react"
 import { useSearch } from '../hooks/useSearch'
-import { config } from "../config";
+import { config } from "../config"
+import ModalSearch from "./ModalSearch"
 
 export default function Header({ reference, setReference }) {
     const [value, setValue] = useState('');
     const [request, setRequest] = useState(false);
+    const [modalSearch, setModalSearch] = useState(false)
     const inputRef = useRef(null)
-    const infoTracks = useSearch(value, request)
+    const {tracks, isLoading, isError} = useSearch(value, request, 6)
     
     function trigger() {
         if (value === '') {
@@ -14,6 +16,7 @@ export default function Header({ reference, setReference }) {
             return
         }
         setRequest(!request)
+        setModalSearch(true)
 
     }
 
@@ -25,6 +28,7 @@ export default function Header({ reference, setReference }) {
     function onClick() {
         trigger()
     }
+    console.log(tracks, isLoading, isError);
     
 
     return (
@@ -33,26 +37,36 @@ export default function Header({ reference, setReference }) {
                 {/* потом поменяю */}
                     vibeflow            </div>
             <div className="w-[80%] flex justify-center items-center">
-                <input 
-                    type="text" 
-                    className="w-[70%] h-full p-2.5 bg-(--card-bg) text-(--text-primary)  rounded-2xl rounded-r-none" 
-                    placeholder="Найти трек..."
-                    value={value}
-                    onChange={event => setValue(event.target.value)}
-                    onKeyDown={event => onKeyDown(event)}
-                    
-                />
-                <input
-                    className="bg-(--secondary-bg) h-full p-[9px] text-(--text-primary) rounded-2xl rounded-l-none w-20  cursor-pointer hover:bg-[#171729]"
-                    type="button" 
-                    value="Искать"
-                    onClick={onClick} 
-                />
+                <div className="relative">
+                    <input 
+                        type="text" 
+                        className="w-[55vw] h-full p-2.5 bg-(--card-bg) text-(--text-primary)  rounded-2xl rounded-r-none" 
+                        placeholder="Найти трек..."
+                        value={value}
+                        onChange={event => setValue(event.target.value)}
+                        onKeyDown={event => onKeyDown(event)}
+                        onBlur={() => setModalSearch(false)}
+                    />
+                    <input
+                        className="bg-(--secondary-bg) h-full p-[9px] text-(--text-primary) rounded-2xl rounded-l-none w-20  cursor-pointer hover:bg-[#171729]"
+                        type="button" 
+                        value="Искать"
+                        onClick={onClick} 
+                    />
+                    {modalSearch && (
+                        <ModalSearch
+                            tracks={tracks}
+                            isLoading={isLoading}
+                            isError={isError}
+                        />
+                    )}
+                </div>
             </div>
             <button className="text-(--text-primary) cursor-pointer" onClick={() => setReference(!reference)}>
                 {/* Доработаю */}
                 Справка
             </button>
+            
         </header>
     )
 }
