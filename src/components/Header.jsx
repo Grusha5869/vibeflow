@@ -7,12 +7,11 @@ export default function Header({ reference, setReference }) {
     const [value, setValue] = useState('');
     const [request, setRequest] = useState(false);
     const [modalSearch, setModalSearch] = useState(false)
-    const inputRef = useRef(null)
     const {tracks, isLoading, isError} = useSearch(value, request, 6)
     
     function trigger() {
         if (value === '') {
-            alert('Такого трека нет')
+            alert('Введите название трека')
             return
         }
         setRequest(!request)
@@ -29,7 +28,24 @@ export default function Header({ reference, setReference }) {
         trigger()
     }
     console.log(tracks, isLoading, isError);
-    
+    /* useEffect(() => {
+        const getInfoTracks = async () => {
+            
+            try {
+                const res = await fetch(`${config.Api_Url}?method=track.getInfo&api_key=${config.Api_Key}&artist=cher&track=believe&format=json`)
+                const data = await res.json();
+
+                if (!data) {
+                    throw new Error(data.message)
+                }
+                console.log(data);
+                
+            } catch (error) {
+                console.error('error api', error)
+            }
+        }
+        getInfoTracks()
+    }, []) */
 
     return (
         <header className="w-full h-12 flex justify-between items-center mb-10">

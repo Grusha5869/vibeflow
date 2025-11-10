@@ -18,8 +18,6 @@ export const useSearch = (value, request, limit) => {
                     
                     if(data.error) {
                         throw new Error(data.message)
-                        setLoading(false)
-                        setError(true)
                     }
 
                     setResult(data)
