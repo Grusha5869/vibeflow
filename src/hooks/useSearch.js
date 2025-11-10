@@ -1,4 +1,4 @@
-import { config } from "../config";
+import { config } from "../config-api";
 import { useEffect, useState } from "react"
 
 
