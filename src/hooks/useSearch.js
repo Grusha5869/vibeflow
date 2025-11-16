@@ -1,11 +1,12 @@
 import { config } from "../config-api";
-import { useEffect, useState } from "react"
+import { useEffect, useState, useMemo } from "react"
 
 
-export const useSearch = (value, request, limit) => {
+export const useSearch = (value, searchRequest, limit, setInfoTrackRequest) => {
     const [result, setResult] = useState('');
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false)
+    /* const [verifLoad, setVerifLoad] = useState(false); */
+    const [error, setError] = useState(false);
     
     useEffect(() => {
         if (value) {
@@ -32,12 +33,24 @@ export const useSearch = (value, request, limit) => {
             fetchData()
         }
         
-    }, [request])
-    const tracks = result?.results?.trackmatches?.track || [];
-    const limitTracks = tracks.slice(0, limit);
+    }, [searchRequest])
+    useEffect(() => {
+        if (!loading && result) {
+            setInfoTrackRequest(true)
+        } else {
+            setInfoTrackRequest(false)
+        }
+    }, [loading, result])
+
+    //был бесконечный рендер :(
+    const tracks = useMemo(() => {
+        const rawTracks = result?.results?.trackmatches?.track || [];
+        return rawTracks.slice(0, limit);
+    }, [result, limit]);
+
 
     return {
-        tracks: limitTracks,
+        tracks,
         isLoading: loading,
         isError: error,
     }

@@ -1,20 +1,24 @@
 import { useEffect, useRef, useState } from "react"
 import { useSearch } from '../hooks/useSearch'
+import { useInfoTrack } from "../hooks/useInfoTrack"
 import { config } from "../config"
 import ModalSearch from "./ModalSearch"
 
 export default function Header({ reference, setReference }) {
     const [value, setValue] = useState('');
-    const [request, setRequest] = useState(false);
-    const [modalSearch, setModalSearch] = useState(false)
-    const {tracks, isLoading, isError} = useSearch(value, request, 6)
+    const [searchRequest, setSearchRequest] = useState(false);
+    const [modalSearch, setModalSearch] = useState(false);
+    const [infoTrackRequest, setInfoTrackRequest] = useState(false);
+    const {tracks, isLoading, isError} = useSearch(value, searchRequest, 6, setInfoTrackRequest);
+    const infoTracks = useInfoTrack(tracks, infoTrackRequest);
+    
     
     function trigger() {
-        if (value === '') {
+        if (value.trim() === '') {
             alert('Введите название трека')
             return
         }
-        setRequest(!request)
+        setSearchRequest(!searchRequest)
         setModalSearch(true)
 
     }
@@ -27,25 +31,12 @@ export default function Header({ reference, setReference }) {
     function onClick() {
         trigger()
     }
-    console.log(tracks, isLoading, isError);
-    /* useEffect(() => {
-        const getInfoTracks = async () => {
-            
-            try {
-                const res = await fetch(`${config.Api_Url}?method=track.getInfo&api_key=${config.Api_Key}&artist=cher&track=believe&format=json`)
-                const data = await res.json();
-
-                if (!data) {
-                    throw new Error(data.message)
-                }
-                console.log(data);
-                
-            } catch (error) {
-                console.error('error api', error)
-            }
-        }
-        getInfoTracks()
-    }, []) */
+    
+    useEffect(() => {
+        console.log(tracks, isLoading, isError);
+        console.log(infoTracks);
+    }, [tracks, infoTracks])
+    
 
     return (
         <header className="w-full h-12 flex justify-between items-center mb-10">
@@ -71,6 +62,7 @@ export default function Header({ reference, setReference }) {
                     />
                     {modalSearch && (
                         <ModalSearch
+                            infoTracks={infoTracks}
                             tracks={tracks}
                             isLoading={isLoading}
                             isError={isError}

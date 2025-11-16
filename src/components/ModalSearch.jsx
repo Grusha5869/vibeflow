@@ -1,5 +1,5 @@
-export default function ModalSearch({tracks, isLoading, isError}) {
-    if (isLoading) {
+export default function ModalSearch({tracks, infoTracks, isLoading, isError}) {
+    if (isLoading || !infoTracks) {
         return (
             <div className="w-full top-10 p-2.5 absolute bg-amber-50">
                 загрузка
@@ -20,14 +20,10 @@ export default function ModalSearch({tracks, isLoading, isError}) {
             </div>
         )
     }
-    function onClick(url) {
-        const audio = new Audio(url)
-        audio.play()
-    }
 
     return (
         <div className="w-full top-10 p-2.5 absolute bg-amber-50">
-            <strong onClick={() => onClick(tracks[0].url)}>{tracks[0].artist}</strong>
+           
         </div>
     )
 }
