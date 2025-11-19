@@ -6,6 +6,10 @@ export const useInfoTrack = (tracks, infoTrackRequest) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  function dataIdentificator() {
+    return new Date().getTime() + Math.random()
+  }
+
   useEffect(() => {
     if (!infoTrackRequest || tracks.length === 0) {
       setResult(null);
@@ -34,6 +38,9 @@ export const useInfoTrack = (tracks, infoTrackRequest) => {
               if (data.error) {
                 throw new Error(data.message);
               }
+
+              data.identif = dataIdentificator();
+
               return data;
             })
         );
@@ -64,11 +71,13 @@ export const useInfoTrack = (tracks, infoTrackRequest) => {
     }
 
     return result.map((item) => {
+      const identificator = item?.identif || null;
       const track = item?.track || {};
       const album = track.album || {};
       const artist = track.artist || {};
 
       return {
+        identif: identificator,
         album: album,
         artist: artist,
         name: track.name || null,
