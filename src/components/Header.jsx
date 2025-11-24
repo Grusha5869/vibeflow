@@ -52,7 +52,7 @@ export default function Header({ reference, setReference }) {
                         value={value}
                         onChange={event => setValue(event.target.value)}
                         onKeyDown={event => onKeyDown(event)}
-                        onBlur={() => setModalSearch(false)}
+                        /* onBlur={() => setModalSearch(false)} */
                     />
                     <input
                         className="bg-(--secondary-bg) h-full p-[9px] text-(--text-primary) rounded-2xl rounded-l-none w-20  cursor-pointer hover:bg-[#171729]"

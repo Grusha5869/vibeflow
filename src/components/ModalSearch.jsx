@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
-import SearchTracks from "./SearchTracks"
+import { MiniPlayerContext } from "../context/Mini-player-context";
+import { useContext, useEffect, useState } from "react";
+import SearchTrack from "./SearchTrack"
 
 export default function ModalSearch({tracks, infoTracks, isLoading, isError}) {
-    const [point, setPoint] = useState('загрузка')
+    const [point, setPoint] = useState('загрузка');
+    const {openMiniPlayer, setOpenMiniPlayer} = useContext(MiniPlayerContext);
 
     useEffect(() => {
         if (isLoading || !infoTracks.result && infoTracks.isLoading) {
@@ -35,10 +37,11 @@ export default function ModalSearch({tracks, infoTracks, isLoading, isError}) {
             <ul>
                 {tracksArr ? 
                     tracksArr.map(elem => 
-                        <SearchTracks
+                        <SearchTrack
                             key={elem.identif}
                             identif={elem.identif}
                             elem={elem}
+                            onClick={() => setOpenMiniPlayer(true)}
                         />
                     ) : (
                        <div className="w-full top-12 p-2.5 absolute bg-(--card-bg) rounded-[7px]">

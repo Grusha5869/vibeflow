@@ -3,20 +3,31 @@ import { config } from './config'
 import { Routes, Route, Outlet } from 'react-router'
 import Navigator from './components/Navigator'
 import Header from './components/Header'
-import Main from './components/Main'
-import Trends from './components/Trends'
-import Favorite from './components/Favorite'
+import Main from './components/pages/Main'
+import Trends from './components/pages/Trends'
+import Favorite from './components/pages/Favorite'
 import ReferenceWindow from './components/Reference-window'
 import { useEffect, useState } from 'react'
+import { MiniPlayerContext } from './context/Mini-player-context'
 
 function App() {
-  const [reference, setReference] = useState(false)
+  const [reference, setReference] = useState(false);
+  const [openMiniPlayer, setOpenMiniPlayer] = useState(false);
+
+  const contextValue = {
+    openMiniPlayer,
+    setOpenMiniPlayer,
+  };
+
   return (
     <>
-      {reference && (
-        <ReferenceWindow />
-      )}
-      <div className="flex">
+      <MiniPlayerContext.Provider value={contextValue}>
+
+        {reference && (
+          <ReferenceWindow />
+        )}
+
+        <div className="flex">
           <Navigator />
 
           <div className="w-full">
@@ -34,9 +45,14 @@ function App() {
               </Route>
             </Routes>
 
+            {openMiniPlayer && (
+              <div className="w-full h-10 bg-amber-100"></div>
+            )}
           </div>
-          
-      </div>
+            
+        </div>
+
+      </MiniPlayerContext.Provider>
     </>
     
   )
