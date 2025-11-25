@@ -6,7 +6,7 @@ import iconFavorite from '../assets/navigator-icons/favorite.svg'
 export default function Navigator() {
     
     return (
-        <nav className="w-18 h-screen text-(--text-primary) flex flex-col gap-y-7 items-center justify-center">
+        <nav className="w-10 h-screen text-(--text-primary) flex flex-col gap-y-7 items-center justify-center">
             
             <NavLink to='/'>
                 {({ isActive }) => {

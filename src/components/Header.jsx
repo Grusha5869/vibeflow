@@ -66,6 +66,8 @@ export default function Header({ reference, setReference }) {
                             tracks={tracks}
                             isLoading={isLoading}
                             isError={isError}
+                            setModalSearch={setModalSearch}
+                            modalSearch={modalSearch}
                         />
                     )}
                 </div>
