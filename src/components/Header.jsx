@@ -6,6 +6,8 @@ import ModalSearch from "./ModalSearch"
 
 export default function Header({ reference, setReference }) {
     const [value, setValue] = useState('');
+    const [oldValue, setOldValue] = useState(null);
+
     const [searchRequest, setSearchRequest] = useState(false);
     const [modalSearch, setModalSearch] = useState(false);
     const [infoTrackRequest, setInfoTrackRequest] = useState(false);
@@ -18,6 +20,9 @@ export default function Header({ reference, setReference }) {
             alert('Введите название трека')
             return
         }
+        setOldValue(value)
+        //Нужно как то взять прошлое значение value
+        if (value === oldValue) return
         setSearchRequest(!searchRequest)
         setModalSearch(true)
 
