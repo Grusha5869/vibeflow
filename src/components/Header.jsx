@@ -6,24 +6,28 @@ import ModalSearch from "./ModalSearch"
 
 export default function Header({ reference, setReference }) {
     const [value, setValue] = useState('');
-    const [oldValue, setOldValue] = useState(null);
+    const oldValueRef = useRef('');
 
     const [searchRequest, setSearchRequest] = useState(false);
     const [modalSearch, setModalSearch] = useState(false);
     const [infoTrackRequest, setInfoTrackRequest] = useState(false);
-    const {tracks, isLoading, isError} = useSearch(value, searchRequest, 6, setInfoTrackRequest);
+    const {tracks, isLoading, isError} = useSearch(value, searchRequest, setSearchRequest, 6, setInfoTrackRequest);
     const infoTracks = useInfoTrack(tracks, infoTrackRequest);
     
     
     function trigger() {
-        if (value.trim() === '') {
+        const trimValue = value.trim();
+
+        if (trimValue === '') {
             alert('Введите название трека')
             return
         }
-        setOldValue(value)
-        //Нужно как то взять прошлое значение value
-        if (value === oldValue) return
-        setSearchRequest(!searchRequest)
+
+        
+        if (trimValue === oldValueRef.current) return
+
+        oldValueRef.current = trimValue
+        setSearchRequest(true)
         setModalSearch(true)
 
     }

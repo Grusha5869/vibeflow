@@ -1,21 +1,23 @@
 import { config } from "../config-api";
-import { useEffect, useState, useMemo } from "react"
+import { useEffect, useState, useMemo, useRef } from "react"
 
 
-export const useSearch = (value, searchRequest, limit, setInfoTrackRequest) => {
+export const useSearch = (value, searchRequest, setSearchRequest, limit, setInfoTrackRequest) => {
     const [result, setResult] = useState('');
     const [loading, setLoading] = useState(false);
-    /* const [verifLoad, setVerifLoad] = useState(false); */
     const [error, setError] = useState(false);
+    const isFetching = useRef(false);
     
     useEffect(() => {
-        if (value) {
+        if (searchRequest && value && !isFetching.current) {
+            isFetching.current = true;
             const fetchData = async () => {
                 setLoading(true)
                 try {
                     const res = await fetch(`${config.Api_Url}?method=track.search&track=${value}&api_key=${config.Api_Key}&format=json`)
                     const data = await res.json()
-
+                    console.log('DATA ', data);
+                    
                     
                     if(data.error) {
                         throw new Error(data.message)
@@ -26,14 +28,19 @@ export const useSearch = (value, searchRequest, limit, setInfoTrackRequest) => {
                     
                 } catch (error) {
                     console.error('error api', error)
-                    setLoading(false)
                     setError(true)
+                } finally {
+                    setLoading(false)
+                    setSearchRequest(false)
+                    isFetching.current = false
+                    console.log('🏁 Request finished');
                 }
             }
             fetchData()
         }
         
     }, [searchRequest])
+
     useEffect(() => {
         if (!loading && result) {
             setInfoTrackRequest(true)

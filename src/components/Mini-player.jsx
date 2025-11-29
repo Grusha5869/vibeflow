@@ -1,12 +1,41 @@
 import { useContext, useEffect } from "react"
 import { MiniPlayerContext } from "../context/Mini-player-context"
+import defImg from '../assets/icons/defSearchImg.svg'
+import MiniPlayerBtn from "./reused-components/Mini-player-btn"
+import prevTrackImg from '../assets/mini-player-icons/right-arrow.svg'
+import playTrackImg from '../assets/mini-player-icons/play.svg'
+import stopTrackImg from '../assets/mini-player-icons/stop.svg'
+
 export default function MiniPlayer() {
     const {specificTrack} = useContext(MiniPlayerContext);
     
     return (
         
-        <div className="w-[350px] h-25 bg-(--card-bg) fixed bottom-0 right-0 rounded-t-xl">
-            {specificTrack?.artist?.name || 'неизвестно'}
+        <div className="w-[350px] h-25 bg-(--card-bg) fixed bottom-0 right-0 rounded-t-xl flex justify-between items-center p-3.5">
+            <div className="text-white flex items-center gap-2">
+                <img className="w-15 h-15" src={specificTrack?.bestImage?.['#text'] || defImg} alt="Нет обложки трека" />
+                <div className="s">
+                    <p className="text-[16px] max-w-[150px]">{specificTrack?.name || 'неизвестно'}</p>
+                    <p className="text-[12px] text-gray-400 max-w-[150px]">{specificTrack?.artist?.name || 'неизвестно'}</p>
+                </div>
+            </div>
+
+            <div className="flex gap-3.5">
+                <MiniPlayerBtn
+                    img={prevTrackImg}
+                    styles='mirror invert-100 size-[25px] cursor-pointer'
+                />
+                <MiniPlayerBtn
+                    img={playTrackImg}
+                    styles='mirror invert-90 size-[25px] cursor-pointer'
+                />
+                <MiniPlayerBtn
+                    img={prevTrackImg}
+                    styles='invert-100 size-[25px] cursor-pointer'
+                />
+                
+            </div>
         </div>
+
     )
 }

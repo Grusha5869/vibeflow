@@ -1,16 +1,31 @@
-# React + Vite
+# ✨ О проекте
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Это клон Spotify, созданный с использованием современных веб-технологий. Проект включает в себя основные функции музыкального плеера с красивым и интуитивным интерфейсом. Использую Last.fm Api. Мой первый серьезный проект.
 
-Currently, two official plugins are available:
+## 🎵 Что реализовано(на данном этапе)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Интерфейс Spotify - темная тема, адаптивный дизайн
+- Поиск - поиск по артистам и трекам
 
-## React Compiler
+## 🛠️ Технологии
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React
+- Vite
+- JavaScript
+- tailwind
 
-## Expanding the ESLint configuration
+## 🚀 Online Demo
+    Посмотреть работающую версию можно по ссылке:  
+    
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🚀 Запуск
+
+```bash
+# Установка зависимостей
+npm install
+
+# Запуск в режиме разработки
+npm run dev
+
+# Сборка для продакшена
+npm run build
