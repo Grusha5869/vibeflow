@@ -1,4 +1,4 @@
-import { config } from "../config-api";
+import API_KEYS from "../config-api.js";
 import { useEffect, useState, useMemo, useRef } from "react"
 
 
@@ -14,10 +14,8 @@ export const useSearch = (value, searchRequest, setSearchRequest, limit, setInfo
             const fetchData = async () => {
                 setLoading(true)
                 try {
-                    const res = await fetch(`${config.Api_Url}?method=track.search&track=${value}&api_key=${config.Api_Key}&format=json`)
+                    const res = await fetch(`${API_KEYS.API_URL}?method=track.search&track=${value}&api_key=${API_KEYS.API_KEY}&format=json`)
                     const data = await res.json()
-                    console.log('DATA ', data);
-                    
                     
                     if(data.error) {
                         throw new Error(data.message)
@@ -33,7 +31,6 @@ export const useSearch = (value, searchRequest, setSearchRequest, limit, setInfo
                     setLoading(false)
                     setSearchRequest(false)
                     isFetching.current = false
-                    console.log('🏁 Request finished');
                 }
             }
             fetchData()

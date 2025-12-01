@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import { useSearch } from '../hooks/useSearch'
 import { useInfoTrack } from "../hooks/useInfoTrack"
-import { config } from "../config"
 import ModalSearch from "./ModalSearch"
 
 export default function Header({ reference, setReference }) {
@@ -40,11 +39,6 @@ export default function Header({ reference, setReference }) {
     function onClick() {
         trigger()
     }
-    
-    useEffect(() => {
-        console.log(tracks, isLoading, isError);
-        console.log(infoTracks);
-    }, [tracks, infoTracks])
     
 
     return (

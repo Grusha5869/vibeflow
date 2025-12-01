@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { config } from "../config-api";
+import API_KEYS from "../config-api";
 
 export const useInfoTrack = (tracks, infoTrackRequest) => {
   const [result, setResult] = useState(null);
@@ -26,7 +26,7 @@ export const useInfoTrack = (tracks, infoTrackRequest) => {
       try {
         const fetchPromises = tracks.map((elem) =>
           fetch(
-            `${config.Api_Url}?method=track.getInfo&api_key=${config.Api_Key}&artist=${elem.artist}&track=${elem.name}&format=json`
+            `${API_KEYS.API_URL}?method=track.getInfo&api_key=${API_KEYS.API_KEY}&artist=${elem.artist}&track=${elem.name}&format=json`
           )
             .then((res) => {
               if (!res.ok) {

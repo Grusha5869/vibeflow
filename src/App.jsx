@@ -1,5 +1,4 @@
 import './App.css'
-import { config } from './config'
 import { Routes, Route, Outlet } from 'react-router'
 import Navigator from './components/Navigator'
 import Header from './components/Header'
