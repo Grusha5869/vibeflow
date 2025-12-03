@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/lastfm/:path*",
+      "destination": "https://ws.audioscrobbler.com/2.0/:path*"
+    }
+  ]
+}
