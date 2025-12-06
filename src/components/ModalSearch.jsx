@@ -1,10 +1,13 @@
 import { MiniPlayerContext } from "../context/Mini-player-context";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import SearchTrack from "./SearchTrack"
+import { useCloseModal } from "../hooks/useCloseModal";
 
 export default function ModalSearch({tracks, infoTracks, isLoading, isError, setModalSearch, modalSearch}) {
     const [point, setPoint] = useState('загрузка');
     const {setOpenMiniPlayer, specificTrack, setSpecificTrack} = useContext(MiniPlayerContext);
+    const modalRef = useRef(null);
+    const closeModal = useCloseModal(modalRef, () => setModalSearch(false))
 
     useEffect(() => {
         if (isLoading || !infoTracks.result && infoTracks.isLoading) {
@@ -44,7 +47,7 @@ export default function ModalSearch({tracks, infoTracks, isLoading, isError, set
     }
 
     return (
-        <div className="w-full top-12 p-2.5 absolute bg-(--card-bg) rounded-[7px]">
+        <div ref={modalRef} className="w-full top-12 p-2.5 absolute bg-(--card-bg) rounded-[7px]">
             <ul className='cursor-pointer'>
                 {tracksArr ? 
                     tracksArr.map(elem => 

@@ -13,6 +13,8 @@ export default function Header({ reference, setReference }) {
     const {tracks, isLoading, isError} = useSearch(value, searchRequest, setSearchRequest, 6, setInfoTrackRequest);
     const infoTracks = useInfoTrack(tracks, infoTrackRequest);
     
+    //получить ref modalSearch
+    //обработать клик, чтобы работало вне клика
     
     function trigger() {
         const trimValue = value.trim();
@@ -31,15 +33,18 @@ export default function Header({ reference, setReference }) {
 
     }
 
-    function onKeyDown(event) {
+    function onKeyDownSearch(event) {
         if (event.key === 'Enter') {
             trigger()
         }
     }
-    function onClick() {
+    function onClickSearchBtn() {
         trigger()
     }
-    
+    function onClickModal() {
+        console.log(modalSearchRef);
+        
+    }
 
     return (
         <header className="w-full h-12 flex justify-between items-center mb-10">
@@ -54,14 +59,14 @@ export default function Header({ reference, setReference }) {
                         placeholder="Найти трек..."
                         value={value}
                         onChange={event => setValue(event.target.value)}
-                        onKeyDown={event => onKeyDown(event)}
+                        onKeyDown={event => onKeyDownSearch(event)}
                         /* onBlur={() => setModalSearch(false)} */
                     />
                     <input
                         className="bg-(--secondary-bg) h-full p-[9px] text-(--text-primary) rounded-2xl rounded-l-none w-20  cursor-pointer hover:bg-[#171729]"
                         type="button" 
                         value="Искать"
-                        onClick={onClick} 
+                        onClick={onClickSearchBtn} 
                     />
                     {modalSearch && (
                         <ModalSearch
