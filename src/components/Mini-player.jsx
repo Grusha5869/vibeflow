@@ -1,13 +1,28 @@
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useMemo, useState } from "react"
 import { MiniPlayerContext } from "../context/Mini-player-context"
 import defImg from '../assets/icons/defSearchImg.svg'
 import MiniPlayerBtn from "./reused-components/Mini-player-btn"
 import prevTrackImg from '../assets/mini-player-icons/right-arrow.svg'
 import playTrackImg from '../assets/mini-player-icons/play.svg'
 import stopTrackImg from '../assets/mini-player-icons/stop.svg'
+import mockTrack from '../assets/mock-files/track.mp3'
 
 export default function MiniPlayer() {
     const {specificTrack} = useContext(MiniPlayerContext);
+    const [playing, setPlaying] = useState(false);
+
+    const audio = useMemo(() => new Audio(mockTrack), [])
+    useEffect(() => {
+        if (playing) {
+            audio.play();
+        }
+        
+        return () => {
+            audio.pause();
+            console.log('из useEffect');
+            
+        }
+    }, [playing])
     
     return (
         
@@ -26,7 +41,8 @@ export default function MiniPlayer() {
                     styles='mirror invert-100 size-[25px] cursor-pointer'
                 />
                 <MiniPlayerBtn
-                    img={playTrackImg}
+                    onClick={() => setPlaying(!playing)}
+                    img={playing ? stopTrackImg : playTrackImg}
                     styles='mirror invert-90 size-[25px] cursor-pointer'
                 />
                 <MiniPlayerBtn
