@@ -41,10 +41,6 @@ export default function Header({ reference, setReference }) {
     function onClickSearchBtn() {
         trigger()
     }
-    function onClickModal() {
-        console.log(modalSearchRef);
-        
-    }
 
     return (
         <header className="w-full h-12 flex justify-between items-center mb-10">

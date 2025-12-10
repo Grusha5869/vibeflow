@@ -1,13 +1,19 @@
-import { MiniPlayerContext } from "../context/Mini-player-context";
-import { useContext, useEffect, useRef, useState } from "react";
+import { MiniPlayerContext } from "../context/Mini-player-context"
+import { useContext, useEffect, useMemo, useRef, useState } from "react"
 import SearchTrack from "./SearchTrack"
-import { useCloseModal } from "../hooks/useCloseModal";
+import { useCloseModal } from "../hooks/useCloseModal"
+import defImg from '../assets/icons/defSearchImg.svg'
+import { useGetLocalStorage } from "../hooks/useGetLocalStorage"
 
 export default function ModalSearch({tracks, infoTracks, isLoading, isError, setModalSearch, modalSearch}) {
     const [point, setPoint] = useState('загрузка');
     const {setOpenMiniPlayer, specificTrack, setSpecificTrack} = useContext(MiniPlayerContext);
     const modalRef = useRef(null);
-    const closeModal = useCloseModal(modalRef, () => setModalSearch(false))
+    const closeErrorModal = useRef(null);
+    const closeModal = useCloseModal(() => setModalSearch(false), modalRef, closeErrorModal);
+    
+    const [pushStorage, setPushStorage] = useState(0);
+    const trackStorage = useGetLocalStorage(pushStorage);
 
     useEffect(() => {
         if (isLoading || !infoTracks.result && infoTracks.isLoading) {
@@ -27,7 +33,7 @@ export default function ModalSearch({tracks, infoTracks, isLoading, isError, set
     }
     if (!tracks || tracks.length === 0 || isError || infoTracks.error) {
         return (
-            <div className="w-full top-12 p-2.5 absolute bg-(--card-bg) rounded-[7px] text-white">
+            <div ref={closeErrorModal} className="w-full top-12 p-2.5 absolute bg-(--card-bg) rounded-[7px] text-white">
                 Ошибка, треки не найдены
             </div>
         )
@@ -41,6 +47,17 @@ export default function ModalSearch({tracks, infoTracks, isLoading, isError, set
         setOpenMiniPlayer(true);
         setSpecificTrack(elem);
 
+        const elemObj = {
+            artist: elem?.artist?.name || 'неизвестно',
+            nameTrack: elem?.name || 'неизвестно',
+            img: elem?.bestImage?.['#text'] || defImg,
+            identif: new Date().getTime() + Math.random()
+        }
+
+        const newTrackStorage = [elemObj, ...trackStorage];
+        localStorage.setItem('trackRecent', JSON.stringify(newTrackStorage));
+        setPushStorage(prev => prev + 1);
+        
         if (modalSearch) {
             setModalSearch(false)
         }

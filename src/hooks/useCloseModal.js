@@ -1,12 +1,16 @@
 import { useEffect } from "react"
 
-export const useCloseModal = (ref, fun) => {
+export const useCloseModal = (fun, ...ref) => {
     
     useEffect(() => {
         function handleClick(event) {
-            if (ref.current && !ref.current.contains(event.target)) {
-                fun()
-            }
+
+            ref.map(elem => {
+                if (elem.current && !elem.current.contains(event.target)) {
+                    return fun()
+                }
+            })
+            
         }
 
         document.addEventListener('mousedown', handleClick)

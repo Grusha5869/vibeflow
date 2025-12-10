@@ -16,22 +16,20 @@ export default function MiniPlayer() {
         if (playing) {
             audio.play();
         }
-        
+
         return () => {
             audio.pause();
-            console.log('из useEffect');
-            
         }
-    }, [playing])
+    }, [playing, audio])
     
     return (
         
         <div className="w-[350px] h-25 bg-(--card-bg) fixed bottom-0 right-0 rounded-t-xl flex justify-between items-center p-3.5">
             <div className="text-white flex items-center gap-2">
-                <img className="w-15 h-15" src={specificTrack?.bestImage?.['#text'] || defImg} alt="Нет обложки трека" />
+                <img className="w-15 h-15" src={specificTrack?.bestImage?.['#text'] || specificTrack?.img || defImg} alt="обложка трека" />
                 <div className="s">
-                    <p className="text-[16px] max-w-[150px]">{specificTrack?.name || 'неизвестно'}</p>
-                    <p className="text-[12px] text-gray-400 max-w-[150px]">{specificTrack?.artist?.name || 'неизвестно'}</p>
+                    <p className="text-[16px] max-w-[150px]">{specificTrack?.name || specificTrack?.nameTrack || 'неизвестно'}</p>
+                    <p className="text-[12px] text-gray-400 max-w-[150px]">{specificTrack?.artist?.name || specificTrack?.artist || 'неизвестно'}</p>
                 </div>
             </div>
 
