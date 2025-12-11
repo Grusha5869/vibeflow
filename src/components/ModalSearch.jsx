@@ -53,8 +53,13 @@ export default function ModalSearch({tracks, infoTracks, isLoading, isError, set
             img: elem?.bestImage?.['#text'] || defImg,
             identif: new Date().getTime() + Math.random()
         }
+        console.log(elemObj);
+        console.log(elem);
+        
 
         const newTrackStorage = [elemObj, ...trackStorage];
+        console.log(newTrackStorage);
+        
         localStorage.setItem('trackRecent', JSON.stringify(newTrackStorage));
         setPushStorage(prev => prev + 1);
         

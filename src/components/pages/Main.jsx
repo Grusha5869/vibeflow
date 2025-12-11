@@ -1,17 +1,14 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import RecentTrack from "../main-components/Recent-track"
 import { useGetLocalStorage } from "../../hooks/useGetLocalStorage"
-import defImg from "../../assets/icons/defSearchImg.svg"
 import { MiniPlayerContext } from "../../context/Mini-player-context"
 
 export default function Main() {
     const trackStorage = useGetLocalStorage()
-    const { setOpenMiniPlayer, setSpecificTrack } = useContext(MiniPlayerContext)
+    const { setOpenMiniPlayer, setSpecificTrack } = useContext(MiniPlayerContext) 
 
     function handleRecentTrackClick(track) {
         setOpenMiniPlayer(true)
-        console.log('из handleClick', track);
-        
         setSpecificTrack(track)
         
     }
@@ -27,7 +24,7 @@ export default function Main() {
                                 key={track.identif}
                                 artist={track.artist}
                                 nameTrack={track.nameTrack}
-                                imgTrack={defImg}
+                                imgTrack={track.img}
                                 onClick={() => handleRecentTrackClick(track)}
                             />
                         )}
