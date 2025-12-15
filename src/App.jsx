@@ -3,12 +3,13 @@ import { Routes, Route, Outlet } from 'react-router'
 import Navigator from './components/Navigator'
 import Header from './components/Header'
 import Main from './components/pages/Main'
-import Trends from './components/pages/Trends'
+import Geo from './components/pages/Geo'
 import Favorite from './components/pages/Favorite'
 import ReferenceWindow from './components/Reference-window'
 import MiniPlayer from './components/Mini-player'
 import { useEffect, useState } from 'react'
 import { MiniPlayerContext } from './context/Mini-player-context'
+import Trends from './components/main-components/Trends'
 
 
 function App() {
@@ -34,7 +35,7 @@ function App() {
         <div className="flex">
           <Navigator />
 
-          <div className="w-full relative">
+          <div className="w-full relative p-[0px_15px]">
             
             <Header 
               reference={reference} 
@@ -44,8 +45,10 @@ function App() {
             <Routes>
               <Route path='/' element={<Layout />}>
                 <Route index element={<Main />} />
-                <Route path='trends' element={<Trends />} />
+                <Route path='geo' element={<Geo />} />
                 <Route path='favorite' element={<Favorite />} />
+                
+                <Route path="playlist-trends" element={<Trends />} />
               </Route>
             </Routes>
 

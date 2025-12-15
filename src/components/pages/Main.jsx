@@ -2,6 +2,7 @@ import { useContext, useState } from "react"
 import RecentTrack from "../main-components/Recent-track"
 import { useGetLocalStorage } from "../../hooks/useGetLocalStorage"
 import { MiniPlayerContext } from "../../context/Mini-player-context"
+import CompilationList from "../main-components/Compilation-list"
 
 export default function Main() {
     const trackStorage = useGetLocalStorage()
@@ -10,12 +11,12 @@ export default function Main() {
     function handleRecentTrackClick(track) {
         setOpenMiniPlayer(true)
         setSpecificTrack(track)
-        
     }
+    
     return (
-        <main className="text-(--text-primary) p-5">
+        <main className="text-(--text-primary)">
             {trackStorage.length !== 0 && (
-                <>
+                <div className="mb-10">
                     <p className="text-xl">Недавнее</p>
                     
                     <ul className="flex mt-4 gap-3 flex-wrap">
@@ -29,8 +30,16 @@ export default function Main() {
                             />
                         )}
                     </ul>
-                </>
+                </div>
             )}
+            {/* 
+                Популярное за неделю в россии
+                ЛУчшие поп
+                
+            */}
+            
+            <p className="text-2xl">Подборка</p>
+            <CompilationList />
         </main>
     )
 }

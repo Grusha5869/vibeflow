@@ -6,9 +6,10 @@ import prevTrackImg from '../assets/mini-player-icons/right-arrow.svg'
 import playTrackImg from '../assets/mini-player-icons/play.svg'
 import stopTrackImg from '../assets/mini-player-icons/stop.svg'
 import mockTrack from '../assets/mock-files/track.mp3'
+import PlusIcon from "../assets/icons/Plus-icon"
 
 export default function MiniPlayer() {
-    const {specificTrack} = useContext(MiniPlayerContext);
+    const {specificTrack, setSpecificTrack, setOpenMiniPlayer} = useContext(MiniPlayerContext);
     const [playing, setPlaying] = useState(false);
 
     const audio = useMemo(() => new Audio(mockTrack), [])
@@ -21,10 +22,15 @@ export default function MiniPlayer() {
             audio.pause();
         }
     }, [playing, audio])
+
+    function handlePlusClick() {
+        setOpenMiniPlayer(false)
+        setSpecificTrack(null)
+    }
     
     return (
         
-        <div className="w-[350px] h-25 bg-(--card-bg) fixed bottom-0 right-0 rounded-t-xl flex justify-between items-center p-3.5">
+        <div className="w-[370px] h-30 bg-(--card-bg) fixed bottom-0 right-0 rounded-t-xl flex justify-between items-center p-3.5">
             <div className="text-white flex items-center gap-2">
                 <img className="w-15 h-15" src={specificTrack?.bestImage?.['#text'] || specificTrack?.img || defImg} alt="обложка трека" />
                 <div className="s">
@@ -49,6 +55,11 @@ export default function MiniPlayer() {
                 />
                 
             </div>
+
+            <PlusIcon
+                css={'rotate-45'}
+                onClick={handlePlusClick}
+            />
         </div>
 
     )

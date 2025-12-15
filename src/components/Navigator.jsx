@@ -2,6 +2,7 @@ import { Link, NavLink } from "react-router"
 import iconHome from '../assets/navigator-icons/home.svg'
 import iconTrends from '../assets/navigator-icons/fire.svg'
 import iconFavorite from '../assets/navigator-icons/favorite.svg'
+import iconGeo from '../assets/navigator-icons/geo.svg'
 
 export default function Navigator() {
     
@@ -19,11 +20,11 @@ export default function Navigator() {
                     )
                 }}
             </NavLink>
-            <NavLink to='/trends'>
+            <NavLink to='/geo'>
                 {({ isActive }) => {
                     return (
                         <img 
-                            src={iconTrends} 
+                            src={iconGeo} 
                             className={`w-8 h-8 ${isActive ? 'invert-50' : 'invert-100'}`}  
                             alt="Страница популяных треков" 
                         />
