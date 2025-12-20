@@ -3,25 +3,49 @@ import { usePopularTrack } from "../../hooks/usePopularTrack"
 import { useEffect, useContext } from "react"
 import { MiniPlayerContext } from "../../context/Mini-player-context"
 import TrackTrends from "./Track-trends"
+import { useInfoTrack } from "../../hooks/useInfoTrack"
+import defImg from "../../assets/icons/defSearchImg.svg"
+import {useGetLocalStorage} from "../../hooks/useGetLocalStorage"
 
 export default function Trends() {
     const popularTrack = usePopularTrack("United States");
     const {setOpenMiniPlayer, setSpecificTrack} = useContext(MiniPlayerContext);
-    useEffect(() => {
-        console.log(popularTrack);
-        
-    }, [popularTrack])
-    function handleClick(track) {
+    const {result: infoPopularTrack, isLoading, isError} = useInfoTrack(popularTrack, true, 'popularTrackInfoArr')
+    const trackStorage = useGetLocalStorage();
+    function handleClick(elem) {
         setOpenMiniPlayer(true)
-        setSpecificTrack(track)
+        setSpecificTrack(elem)
+
+        const trackObj = {
+            artist: elem?.artist?.name || 'неизвестно',
+            nameTrack: elem?.name || 'неизвестно',
+            img: elem?.bestImage?.['#text'] || defImg,
+            identif: new Date().getTime() + Math.random()
+        }
+        
+        const newTrackStorage = [trackObj, ...trackStorage];
+
+        localStorage.setItem('trackRecent', JSON.stringify(newTrackStorage));
+
     }
     function btnHandleCLick() {
-        handleClick(popularTrack[0])
+        handleClick(infoPopularTrack[0])
     }
+    
+    if (!infoPopularTrack && isLoading) {
+        return (
+            <p className="text-white">загрузка</p>
+        )
+    }
+
+    if (isError) {
+        return <p className="text-white">Ошибка</p>
+    }
+
     return (
         <article className="text-white">
             <header className="text-4xl mb-10">Лучшее за последнюю неделю</header>
-            <p className="mb-4">{`${popularTrack.length - 1} треков`}</p>
+            <p className="mb-4">{`${infoPopularTrack.length} треков`}</p>
             <Button
                 text={'Слушать'}
                 css='mb-10'
@@ -35,17 +59,17 @@ export default function Trends() {
                 </div>
             </div>
             <ul>
-                {popularTrack
-                .filter(elem => typeof elem !== 'number')
-                .map(elem => 
-                    <TrackTrends
-                        key={elem.identif}
-                        nameTrack={elem?.nameTrack || 'неизвестно'}
-                        artist={elem?.artist || 'неизвестно'}
-                        listeners={elem?.listeners || 'неизвестно'}
-                        onClick={() => handleClick(elem)}
-                    />    
-                )}
+                {infoPopularTrack
+                    .map(elem => 
+                        <TrackTrends
+                            key={elem.identif}
+                            nameTrack={elem?.name || 'неизвестно'}
+                            artist={elem?.artist?.name || 'неизвестно'}
+                            listeners={elem?.listeners || 'неизвестно'}
+                            img={elem?.bestImage?.['#text'] || defImg}
+                            onClick={() => handleClick(elem)}
+                        />    
+                    )}
             </ul>
         </article>
     )

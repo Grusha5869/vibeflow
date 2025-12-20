@@ -12,10 +12,7 @@ export default function Header({ reference, setReference }) {
     const [infoTrackRequest, setInfoTrackRequest] = useState(false);
     const {tracks, isLoading, isError} = useSearch(value, searchRequest, setSearchRequest, 6, setInfoTrackRequest);
     const infoTracks = useInfoTrack(tracks, infoTrackRequest);
-    
-    //получить ref modalSearch
-    //обработать клик, чтобы работало вне клика
-    
+      
     function trigger() {
         const trimValue = value.trim();
 
@@ -56,7 +53,6 @@ export default function Header({ reference, setReference }) {
                         value={value}
                         onChange={event => setValue(event.target.value)}
                         onKeyDown={event => onKeyDownSearch(event)}
-                        /* onBlur={() => setModalSearch(false)} */
                     />
                     <input
                         className="bg-(--secondary-bg) h-full p-[9px] text-(--text-primary) rounded-2xl rounded-l-none w-20  cursor-pointer hover:bg-[#171729]"

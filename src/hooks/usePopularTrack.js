@@ -7,14 +7,19 @@ export const usePopularTrack = (country) => {
         const stored = localStorage.getItem('popularTrackArr')
         return stored ? JSON.parse(stored) : []
     })
-    //сохранение в local storage и еще обновить через неделю
-    //нету картинок, тк к каждому треку getTopTrack, много запросов.
+
     useEffect(() => {
         async function fetchPopularTrack() {
-            if (!(getLSValue.length === 0)) return
+            if (getLSValue.length > 0) {
+                const timestap = getLSValue[getLSValue.length - 1];
+                const date = new Date().getTime();
+                const fourDays = 4 * 24 * 60 * 60 * 1000;
+
+                if (date - timestap <= fourDays) return
+            }
             
             try {
-                const res = await fetch(`${API_KEYS.API_URL}?method=geo.gettoptracks&country=${country}&limit=65&api_key=${API_KEYS.API_KEY}&format=json`)
+                const res = await fetch(`${API_KEYS.API_URL}?method=geo.gettoptracks&country=${country}&limit=10&api_key=${API_KEYS.API_KEY}&format=json`)
                 const data = await res.json();
 
                 if (data.error) {
@@ -42,7 +47,7 @@ export const usePopularTrack = (country) => {
                 }
                 
             })
-            tracksArr.push(new Date().getDate())
+            tracksArr.push(new Date().getTime())
             localStorage.setItem(`popularTrackArr`, JSON.stringify(tracksArr))
 
             return tracksArr

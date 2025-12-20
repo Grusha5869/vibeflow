@@ -50,8 +50,8 @@ export const useSearch = (value, searchRequest, setSearchRequest, limit, setInfo
     const tracks = useMemo(() => {
         const rawTracks = result?.results?.trackmatches?.track || [];
         return rawTracks.slice(0, limit);
+        
     }, [result, limit]);
-
 
     return {
         tracks,

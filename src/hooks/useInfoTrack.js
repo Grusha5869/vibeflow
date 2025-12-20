@@ -2,19 +2,30 @@ import { useEffect, useMemo, useState } from "react";
 import API_KEYS from "../config-api";
 
 
-export const useInfoTrack = (tracks, infoTrackRequest) => {
+export const useInfoTrack = (tracks, infoTrackRequest, lsKey) => {
   const [result, setResult] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [getLSValue, setGetLSValue] = useState(() => {
+    if (lsKey) {
+      const stored = localStorage.getItem(lsKey);
+      return stored ? JSON.parse(stored) : []
+    }
+    
+    return []
+  })
 
   function dataIdentificator() {
     return new Date().getTime() + Math.random()
   }
 
-  useEffect(() => {
+  useEffect(() => { 
+    
     if (!infoTrackRequest || tracks.length === 0) {
       setResult(null);
       setError(null);
+      setIsLoading(false);
+      
       return;
     }
 
@@ -23,11 +34,16 @@ export const useInfoTrack = (tracks, infoTrackRequest) => {
     const infoTrackFetch = async () => {
       setIsLoading(true);
       setError(null);
-
+      if (getLSValue.length !== 0) {
+        
+        return
+      }
+      const filterTracks = tracks.filter(elem => typeof elem !== 'number')
+      
       try {
-        const fetchPromises = tracks.map((elem) =>
+        const fetchPromises = filterTracks.map((elem) =>  
           fetch(
-            `${API_KEYS.API_URL}?method=track.getInfo&api_key=${API_KEYS.API_KEY}&artist=${elem.artist}&track=${elem.name}&format=json`
+            `${API_KEYS.API_URL}?method=track.getInfo&api_key=${API_KEYS.API_KEY}&artist=${elem.artist}&track=${elem.name || elem.nameTrack}&format=json`
           )
             .then((res) => {
               if (!res.ok) {
@@ -44,10 +60,17 @@ export const useInfoTrack = (tracks, infoTrackRequest) => {
 
               return data;
             })
+            .catch(error => {
+              console.error(error);
+              
+            })
         );
 
         const results = await Promise.all(fetchPromises);
+
         setResult(results);
+        
+        
       } catch (err) {
         if (isMounted) {
           setError(err.message);
@@ -67,8 +90,10 @@ export const useInfoTrack = (tracks, infoTrackRequest) => {
   }, [infoTrackRequest, tracks]);
 
   const resultMemo = useMemo(() => {
+    
     if (!result || !Array.isArray(result)) {
-      return null;
+
+      return getLSValue;
     }
 
     return result.map((item) => {
@@ -76,6 +101,7 @@ export const useInfoTrack = (tracks, infoTrackRequest) => {
       const track = item?.track || {};
       const album = track.album || {};
       const artist = track.artist || {};
+      const listeners = track?.listeners || 'неизвестно'
 
       return {
         identif: identificator,
@@ -83,9 +109,18 @@ export const useInfoTrack = (tracks, infoTrackRequest) => {
         artist: artist,
         name: track.name || null,
         bestImage: album.image?.[album.image.length - 1] || null,
+        listeners: listeners,
       };
     });
   }, [result]);
 
+  useEffect(() => {
+    if (resultMemo) {
+      if (lsKey) {
+        localStorage.setItem(lsKey, JSON.stringify(resultMemo));
+      }
+    }
+  }, [resultMemo])
+  
   return { result: resultMemo, isLoading, error };
 };

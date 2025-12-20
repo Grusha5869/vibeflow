@@ -10,6 +10,8 @@ import MiniPlayer from './components/Mini-player'
 import { useEffect, useState } from 'react'
 import { MiniPlayerContext } from './context/Mini-player-context'
 import Trends from './components/main-components/Trends'
+import TrendsSimilar from './components/main-components/Trends-similar'
+
 
 
 function App() {
@@ -49,6 +51,7 @@ function App() {
                 <Route path='favorite' element={<Favorite />} />
                 
                 <Route path="playlist-trends" element={<Trends />} />
+                <Route path='playlist-trends-similar' element={<TrendsSimilar />} />
               </Route>
             </Routes>
 
