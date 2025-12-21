@@ -11,7 +11,7 @@ export default function CompilationList() {
             </li>
             <li className="flex-1 bg-orange-200 hover:bg-orange-400 rounded-xl text-3xl">
                 <Link to='/playlist-trends-similar' className="block h-full p-4">
-                    Похожие
+                    Похожие на последний трек
                 </Link>
             </li>
             <li className="flex-1 bg-emerald-200 hover:bg-emerald-400 rounded-xl">

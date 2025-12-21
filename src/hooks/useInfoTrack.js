@@ -21,7 +21,7 @@ export const useInfoTrack = (tracks, infoTrackRequest, lsKey) => {
 
   useEffect(() => { 
     
-    if (!infoTrackRequest || tracks.length === 0) {
+    if (!infoTrackRequest || tracks.length <= 0) {
       setResult(null);
       setError(null);
       setIsLoading(false);
