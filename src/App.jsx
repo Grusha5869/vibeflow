@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react'
 import { MiniPlayerContext } from './context/Mini-player-context'
 import Trends from './components/main-components/Trends'
 import TrendsSimilar from './components/main-components/Trends-similar'
-
+import Chillout from './components/main-components/Chillout'
 
 
 function App() {
@@ -52,6 +52,7 @@ function App() {
                 
                 <Route path="playlist-trends" element={<Trends />} />
                 <Route path='playlist-trends-similar' element={<TrendsSimilar />} />
+                <Route path='playlist-tags' element={<Chillout />} />
               </Route>
             </Routes>
 

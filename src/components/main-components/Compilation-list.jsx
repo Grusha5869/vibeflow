@@ -14,8 +14,10 @@ export default function CompilationList() {
                     Похожие на последний трек
                 </Link>
             </li>
-            <li className="flex-1 bg-emerald-200 hover:bg-emerald-400 rounded-xl">
-                
+            <li className="flex-1 bg-emerald-200 hover:bg-emerald-400 rounded-xl text-3xl">
+                <Link to='/playlist-tags' className="block h-full p-4">
+                    Музыка для отдыха
+                </Link>
             </li>
 
         </ul>

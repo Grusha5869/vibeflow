@@ -44,7 +44,7 @@ export default function Trends() {
 
     return (
         <article className="text-white">
-            <header className="text-4xl mb-10">Лучшее за последнюю неделю</header>
+            <header className="text-4xl mb-10">🎯Лучшее за последнюю неделю</header>
             <p className="mb-4">{`${infoPopularTrack.length} треков`}</p>
             <Button
                 text={'Слушать'}

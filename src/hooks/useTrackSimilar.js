@@ -31,7 +31,6 @@ export const useTrackSimilar = (track, limit, keyLS) => {
                     if (data.error) {
                         throw new Error(data.message);
                     }
-                    console.log(data);
                     
                     setResult(data)
                     setLoading(false)

@@ -13,18 +13,10 @@ export default function TrendsSimilar() {
         const stored = localStorage.getItem('trackRecent');
         return stored ? JSON.parse(stored) : []
     })
-    const {resultMemo: trackSimilar} = useTrackSimilar(getLS, 2)
+    const {resultMemo: trackSimilar} = useTrackSimilar(getLS, 6)
     const {result: infoTrack, isLoading, isError} = useInfoTrack(trackSimilar, true)
     const {setOpenMiniPlayer, setSpecificTrack} = useContext(MiniPlayerContext);
     const trackStorage = useGetLocalStorage()
-
-    useEffect(() => {
-        
-        console.log('simen', trackSimilar);
-        
-        console.log('info', infoTrack);
-        
-    }, [infoTrack])
 
     function handleClick(elem) {
         setOpenMiniPlayer(true)
@@ -48,8 +40,8 @@ export default function TrendsSimilar() {
 
     return (
         <article className="text-white">
-            <header className="text-4xl mb-10">Похожие на последний трек</header>
-            <p className="mb-4">{`0 треков`}</p>
+            <header className="text-4xl mb-10">🎵Похожие на последний трек</header>
+            <p className="mb-4">{`${infoTrack.length} треков`}</p>
             <Button
                 text={'Слушать'}
                 css='mb-10'

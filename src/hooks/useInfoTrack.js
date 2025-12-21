@@ -38,9 +38,11 @@ export const useInfoTrack = (tracks, infoTrackRequest, lsKey) => {
         
         return
       }
+      
       const filterTracks = tracks.filter(elem => typeof elem !== 'number')
       
       try {
+        
         const fetchPromises = filterTracks.map((elem) =>  
           fetch(
             `${API_KEYS.API_URL}?method=track.getInfo&api_key=${API_KEYS.API_KEY}&artist=${elem.artist}&track=${elem.name || elem.nameTrack}&format=json`
