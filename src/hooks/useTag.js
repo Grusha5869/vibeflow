@@ -14,7 +14,12 @@ export const useTag = (tag, limit, LSKey) => {
                 setError(false)
                 return 
             }
+            if (!tag) {
+                return
+            }
             try {
+                console.log('запрос');
+                
                 setLoading(true)
                 const res = await fetch(`${API_KEYS.API_URL}?method=tag.gettoptracks&tag=${tag}&limit=${limit}&api_key=${API_KEYS.API_KEY}&format=json`)
                 const data = await res.json()
@@ -34,7 +39,7 @@ export const useTag = (tag, limit, LSKey) => {
             }
         }
         fetchTag()
-    }, [])
+    }, [tag])
 
     const resultMemo = useMemo(() => {
         if (!result) return []

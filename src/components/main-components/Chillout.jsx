@@ -9,21 +9,6 @@ import { MiniPlayerContext } from "../../context/Mini-player-context"
 import {useGetLocalStorage} from "../../hooks/useGetLocalStorage"
 
 export default function Chillout() {
-    //"chillout"
-    /* useEffect(() => {
-        const fetchFun = async () => {
-            try {
-                const res = await fetch(`${API_KEYS.API_URL}?method=tag.getTopTags&api_key=${API_KEYS.API_KEY}&format=json`);
-                const data = await res.json();
-                console.log(data);
-                
-            } catch (error) {
-                console.error(error);
-                
-            }
-        }
-        fetchFun()
-    }, []) */
     const [LSValue, setLSValue] = useState(() => {
         const stored = localStorage.getItem('chillTag');
         return stored ? JSON.parse(stored) : []

@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { MiniPlayerContext } from "../../context/Mini-player-context"
 
-export default function TrackTrends({onClick, nameTrack, artist, listeners, img}) {
+export default function TrackTrends({onClick, nameTrack, artist, listeners, img, opo}) {
     
     return (
         <div onClick={onClick} className="w-full flex justify-between items-center cursor-pointer hover:bg-(--card-bg) p-4 rounded-2xl">
