@@ -10,29 +10,25 @@ import { MiniPlayerContext } from "../../context/Mini-player-context"
 export default function TagsSearch() {
     const [selectValue, setSelectValue] = useState(null)
     const [btnClickRequest, setBtnClickRequest] = useState(null)
+    const [separator, setSeparator] = useState('min-h-40')
     
     const [LSValue, setLSValue] = useState(() => {
         const stored = localStorage.getItem(`${btnClickRequest}Tag`);
         return stored ? JSON.parse(stored) : []
     })
-    const {result: tagResult, loading, error} = useTag(btnClickRequest, 2, LSValue)
+    const {result: tagResult, loading, error} = useTag(btnClickRequest, 4, LSValue)
     const {result: trackInfoTag, isLoading, isError} = useInfoTrack(tagResult, true, `${btnClickRequest}Tag`)
     const {setOpenMiniPlayer, setSpecificTrack} = useContext(MiniPlayerContext);
     const trackStorage = useGetLocalStorage();
 
-    useEffect(() => {
-        console.log(btnClickRequest);
+    /* useEffect(() => {
+        console.log(refHeightElem.current.style.height);
         
-    }, [btnClickRequest])
-    useEffect(() => {
-        console.log(tagResult);
-        console.log(trackInfoTag);
         
-    }, [tagResult])
-    useEffect(() => {
-        console.log('lsValue', LSValue);
-        
-    }, [LSValue])
+    }, [refHeightElem]) */
+    /* useEffect(() => {
+
+    }, []) */
 
 
     function handleCLick() {
@@ -83,9 +79,9 @@ export default function TagsSearch() {
                     onClick={handleCLick}
                 />
             </div>
-            <div className="line w-1 h-full min-h-40 bg-(--secondary-bg)"></div>
-            <div className="">
-                <ul>
+            <div className={`line w-1 ${separator} bg-(--secondary-bg)`}></div>
+            <div>
+                <ul> 
                     {trackInfoTag.map(elem => 
                         <Track 
                             key={elem.identif}
